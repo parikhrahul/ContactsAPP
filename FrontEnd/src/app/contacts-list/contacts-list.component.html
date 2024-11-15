@@ -1,0 +1,57 @@
+<div class="container mt-3">
+    <div class="d-flex justify-content-between mb-3">
+      <h3>Contacts App</h3>
+      <button class="btn btn-success" (click)="openNewContactForm()">New</button>
+    </div>
+  
+    <div class="mb-3">
+      <input type="text" class="form-control" placeholder="Search by name or email" [(ngModel)]="searchText" (input)="onSearch()" />
+    </div>
+  
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th (click)="sortContacts('id')">
+            Id
+            <img *ngIf="currentSortProperty === 'id' && sortDirection['id']" src="assets/icons/sort-up.svg" alt="Sort Up" width="12">
+            <img *ngIf="currentSortProperty === 'id' && !sortDirection['id']" src="assets/icons/sort-down-alt.svg" alt="Sort Down" width="12">
+          </th>
+          <th (click)="sortContacts('firstName')">
+            Firstname
+            <img *ngIf="currentSortProperty === 'firstName' && sortDirection['firstName']" src="assets/icons/sort-up.svg" alt="Sort Up" width="12">
+            <img *ngIf="currentSortProperty === 'firstName' && !sortDirection['firstName']" src="assets/icons/sort-down-alt.svg" alt="Sort Down" width="12">
+          </th>
+          <th (click)="sortContacts('lastName')">
+            Lastname
+            <img *ngIf="currentSortProperty === 'lastName' && sortDirection['lastName']" src="assets/icons/sort-up.svg" alt="Sort Up" width="12">
+            <img *ngIf="currentSortProperty === 'lastName' && !sortDirection['lastName']" src="assets/icons/sort-down-alt.svg" alt="Sort Down" width="12">
+          </th>
+          <th (click)="sortContacts('email')">
+            Email
+            <img *ngIf="currentSortProperty === 'email' && sortDirection['email']" src="assets/icons/sort-up.svg" alt="Sort Up" width="12">
+            <img *ngIf="currentSortProperty === 'email' && !sortDirection['email']" src="assets/icons/sort-down-alt.svg" alt="Sort Down" width="12">
+          </th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let contact of filteredContacts">
+          <td>{{ contact.id }}</td>
+          <td>{{ contact.firstName }}</td>
+          <td>{{ contact.lastName }}</td>
+          <td>{{ contact.email }}</td>
+          <td><button class="btn btn-primary" (click)="editContact(contact)">Edit</button></td>
+          <td><button class="btn btn-danger" *ngIf="contact.id !== null" (click)="deleteContact(contact.id)">Delete</button></td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <app-contact-form
+      *ngIf="selectedContact"
+      [contact]="selectedContact"
+      (save)="saveContact($event)"
+      (cancel)="cancelEdit()">
+    </app-contact-form>
+  </div>
+  
