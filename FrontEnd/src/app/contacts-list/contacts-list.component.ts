@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Modal } from 'bootstrap';
 import { Contact } from '../models/contact.model';
 
 @Component({
@@ -21,30 +22,29 @@ export class ContactsListComponent {
   nextId: number = this.contacts.length > 0 ? Math.max(...this.contacts.map(c => c.id ?? -1)) + 1 : 0;
 
   openNewContactForm() {
-    this.selectedContact = { id: null, firstName: '', lastName: '', email: '' };
+    this.selectedContact = null;
   }
 
   editContact(contact: Contact) {
     this.selectedContact = { ...contact };
+    const modalElement = document.getElementById('contactModal') as HTMLElement;
+    const modalInstance = Modal.getOrCreateInstance(modalElement); // Ensure the modal opens
+    modalInstance.show();
   }
 
   saveContact(contact: Contact) {
-    if (contact.id === null || contact.id === undefined) {
-      // Assign a new unique ID to the new contact
+    if (contact.id === null || contact.id === undefined) {     
       contact.id = this.nextId++;
       this.contacts.push(contact);
-    }{
+    }
+    else{
     const index = this.contacts.findIndex(c => c.id === contact.id);
     if (index > -1) {
-      this.contacts[index] = contact;
-      this.filteredContacts = [...this.contacts];
-    } else {
-      contact.id = this.contacts.length;
-      this.contacts.push(contact);
+      this.contacts[index] = contact;      
     }
   }
-
-    this.selectedContact = null;
+  this.filteredContacts = [...this.contacts];
+  this.closeModal();
   }
 
   deleteContact(id: number) {
@@ -54,6 +54,7 @@ export class ContactsListComponent {
 
   cancelEdit() {
     this.selectedContact = null;
+    this.closeModal();
   }
 
   onSearch() {
@@ -85,5 +86,13 @@ export class ContactsListComponent {
       return this.sortDirection[property] ? 'bi bi-caret-up-fill' : 'bi bi-caret-down-fill';
     }
     return 'bi bi-caret-right-fill'; 
+  }
+
+  closeModal() {
+    const modalElement = document.getElementById('contactModal') as HTMLElement;
+    if (modalElement) {
+      const modalInstance = Modal.getInstance(modalElement) || new Modal(modalElement);
+      modalInstance.hide();
+    }
   }
 }

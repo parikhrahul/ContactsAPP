@@ -1,7 +1,7 @@
 <div class="container mt-3">
     <div class="d-flex justify-content-between mb-3">
       <h3>Contacts App</h3>
-      <button class="btn btn-success" (click)="openNewContactForm()">New</button>
+      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#contactModal" (click)="openNewContactForm()">New</button>
     </div>
   
     <div class="mb-3">
@@ -47,11 +47,25 @@
       </tbody>
     </table>
   
-    <app-contact-form
-      *ngIf="selectedContact"
-      [contact]="selectedContact"
-      (save)="saveContact($event)"
-      (cancel)="cancelEdit()">
-    </app-contact-form>
+   
+  <!-- Modal -->
+  <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="contactModalLabel">{{ selectedContact ? 'Edit Contact' : 'New Contact' }}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <app-contact-form
+            [contact]="selectedContact || { id: null, firstName: '', lastName: '', email: '' }"
+            (save)="saveContact($event)"
+            (cancel)="cancelEdit()">
+          </app-contact-form>
+        </div>
+      </div>
+    </div>
   </div>
+</div>
+
   

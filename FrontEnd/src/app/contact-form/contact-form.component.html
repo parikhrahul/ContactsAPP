@@ -16,8 +16,8 @@
       </div>
   
       <div class="button-group">
-      <button type="submit" class="btn btn-primary" [disabled]="contactForm.invalid">Save</button>
-      <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+      <button type="submit" class="btn btn-primary" [disabled]="contactForm.invalid" data-bs-dismiss="modal">Save</button>
+      <button type="button" class="btn btn-secondary" (click)="onCancel()" data-bs-dismiss="modal">Cancel</button>
     </div>
     </form>
   </div>
