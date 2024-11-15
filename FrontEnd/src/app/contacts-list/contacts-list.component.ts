@@ -22,13 +22,13 @@ export class ContactsListComponent {
   nextId: number = this.contacts.length > 0 ? Math.max(...this.contacts.map(c => c.id ?? -1)) + 1 : 0;
 
   openNewContactForm() {
-    this.selectedContact = null;
+    this.selectedContact = { id: null, firstName: '', lastName: '', email: '' }; 
   }
 
   editContact(contact: Contact) {
     this.selectedContact = { ...contact };
     const modalElement = document.getElementById('contactModal') as HTMLElement;
-    const modalInstance = Modal.getOrCreateInstance(modalElement); // Ensure the modal opens
+    const modalInstance = Modal.getOrCreateInstance(modalElement); 
     modalInstance.show();
   }
 
@@ -43,6 +43,7 @@ export class ContactsListComponent {
       this.contacts[index] = contact;      
     }
   }
+  this.selectedContact = null;
   this.filteredContacts = [...this.contacts];
   this.closeModal();
   }
@@ -57,14 +58,16 @@ export class ContactsListComponent {
     this.closeModal();
   }
 
-  onSearch() {
+  onSearch(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.searchText = input.value.toLowerCase();
     this.filteredContacts = this.contacts.filter(contact =>
-      contact.firstName.toLowerCase().includes(this.searchText.toLowerCase()) ||
-      contact.lastName.toLowerCase().includes(this.searchText.toLowerCase()) ||
-      contact.email.toLowerCase().includes(this.searchText.toLowerCase())
+      contact.firstName.toLowerCase().includes(this.searchText) ||
+      contact.lastName.toLowerCase().includes(this.searchText) ||
+      contact.email.toLowerCase().includes(this.searchText)
     );
   }
-
+ 
   sortContacts(property: keyof Contact) {
     this.currentSortProperty = property;
     this.sortDirection[property] = !this.sortDirection[property]; 

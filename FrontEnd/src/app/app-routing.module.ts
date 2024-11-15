@@ -3,8 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 import { ContactsListComponent } from './contacts-list/contacts-list.component'
 
 const routes: Routes = [
-  {path: '', redirectTo : '/contacts-list', pathMatch: 'full'},
-  {path: 'contacts-list', component: ContactsListComponent}
+  {path: '', redirectTo : '/contacts', pathMatch: 'full'},
+  {
+    path: 'contacts',
+    loadChildren: () =>
+      import('./contacts/contacts.module').then((m) => m.ContactsModule),
+  }  
 ];
 
 @NgModule({

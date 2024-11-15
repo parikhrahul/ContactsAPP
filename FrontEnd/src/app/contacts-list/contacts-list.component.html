@@ -5,7 +5,7 @@
     </div>
   
     <div class="mb-3">
-      <input type="text" class="form-control" placeholder="Search by name or email" [(ngModel)]="searchText" (input)="onSearch()" />
+      <input type="text" class="form-control" placeholder="Search by name or email" [(ngModel)]="searchText" (input)="onSearch($event)" />
     </div>
   
     <table class="table table-bordered">
